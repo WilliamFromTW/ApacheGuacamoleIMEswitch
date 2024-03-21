@@ -133,7 +133,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(566, 297);
+            tabPage2.Size = new Size(566, 320);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Settings";
             tabPage2.UseVisualStyleBackColor = true;
@@ -142,11 +142,11 @@
             // 
             button3.Font = new Font("Verdana", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             button3.ForeColor = SystemColors.Highlight;
-            button3.Location = new Point(54, 133);
+            button3.Location = new Point(54, 188);
             button3.Name = "button3";
-            button3.Size = new Size(299, 62);
+            button3.Size = new Size(442, 62);
             button3.TabIndex = 1;
-            button3.Text = "啟用左邊Shift鍵(可切換中文)";
+            button3.Text = "啟用主機左邊Shift鍵(可切換中文)";
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_Click;
             // 
@@ -156,9 +156,9 @@
             button2.ForeColor = Color.Crimson;
             button2.Location = new Point(54, 45);
             button2.Name = "button2";
-            button2.Size = new Size(299, 61);
+            button2.Size = new Size(442, 61);
             button2.TabIndex = 0;
-            button2.Text = "停用左邊Shift鍵(不能切換中文)";
+            button2.Text = "停用主機左邊Shift鍵(不能切換中文)";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
@@ -169,7 +169,7 @@
             ClientSize = new Size(598, 372);
             Controls.Add(tabControl1);
             Name = "Form1";
-            Text = "kafeiou 1.0";
+            Text = "解決酪梨醬中文切換問題  kafeiou 1.0";
             Load += Form1_Load;
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
