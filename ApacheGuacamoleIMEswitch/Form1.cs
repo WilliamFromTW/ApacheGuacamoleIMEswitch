@@ -62,6 +62,7 @@ namespace ApacheGuacamoleIMEswitch
 
         private void save_Click(object sender, EventArgs e)
         {
+            strURL = URL.Text.ToString();
             Properties.Settings.Default.URL = URL.Text.ToString();
             Properties.Settings.Default.Save();
         }
