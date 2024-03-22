@@ -6,7 +6,6 @@
 1. visutal studion express 2022
 2. 64位元windows 10、11
 
-PS：主機需安裝google chrome瀏覽器，且為64位元
 
 
 
