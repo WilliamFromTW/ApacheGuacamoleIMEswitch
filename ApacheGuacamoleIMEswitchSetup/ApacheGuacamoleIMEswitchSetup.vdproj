@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_7C7D2025D4C14A83B8D439513EB2CA2C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D88D9944E904494E85A914271884D177"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -37,6 +43,17 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:S:\\\\developer\\\\project\\hlmt\\vs\\ApacheGuacamoleIMEswitch\\component"
+                "Items"
+                {
+                }
+            }
         }
         "Release"
         {
@@ -53,6 +70,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -84,6 +109,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7C7D2025D4C14A83B8D439513EB2CA2C"
+            {
+            "SourcePath" = "8:..\\ApacheGuacamoleIMEswitch\\images\\guacamole_icon_niC_icon.ico"
+            "TargetName" = "8:guacamole_icon_niC_icon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_4ECBD6E61F8A4D329A8482542920B549"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -124,6 +169,17 @@
                 {
                 }
             }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_C2238D7E45754CB99E57A70BB75D53C5"
+            {
+            "Name" = "8:#1915"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:AppDataFolder"
+                "Folders"
+                {
+                }
+            }
         }
         "LaunchCondition"
         {
@@ -140,21 +196,21 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ApacheGuacamoleIMEswitchSetup"
-        "ProductCode" = "8:{5A7551AA-0F89-4F85-9D19-F79A3302073A}"
-        "PackageCode" = "8:{A946E606-7D7C-4500-B4C3-5CCF3A74C48A}"
+        "ProductCode" = "8:{0C32243A-EC36-46E4-A6DE-F53AB77EAFCF}"
+        "PackageCode" = "8:{A530999B-0D85-4AA6-BD0F-BA432C21EB49}"
         "UpgradeCode" = "8:{8B93FA73-534B-4BDA-BD31-33D74956728E}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Default Company Name"
+        "ProductVersion" = "8:2.0"
+        "Manufacturer" = "8:kafeiou"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:ApacheGuacamoleIMEswitchSetup"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Default Company Name"
+        "ARPCONTACT" = "8:william"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
@@ -272,7 +328,7 @@
             "Target" = "8:_D88D9944E904494E85A914271884D177"
             "Folder" = "8:_76E6285F89D344918271F26C4D0B91C3"
             "WorkingFolder" = "8:_4ECBD6E61F8A4D329A8482542920B549"
-            "Icon" = "8:"
+            "Icon" = "8:_7C7D2025D4C14A83B8D439513EB2CA2C"
             "Feature" = "8:"
             }
         }

@@ -1,3 +1,4 @@
+
 namespace ApacheGuacamoleIMEswitch
 {
     internal static class Program
