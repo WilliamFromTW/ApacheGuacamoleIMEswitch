@@ -49,7 +49,7 @@ namespace ApacheGuacamoleIMEswitch
         private void Form1_Load(object sender, EventArgs e)
         {
 
-            if (Properties.Settings.Default.URL is null || Properties.Settings.Default.URL.Trim().Equals(""))
+            if (Properties.Settings.Default.URL is null || Properties.Settings.Default.URL.ToString().Trim().Equals(""))
             {
                 Properties.Settings.Default.URL = strURL;
                 Properties.Settings.Default.Save();
@@ -57,7 +57,7 @@ namespace ApacheGuacamoleIMEswitch
             }
             else URL.Text = Properties.Settings.Default.URL.ToString();
 
-
+            strURL = URL.Text.ToString();
         }
 
         private void save_Click(object sender, EventArgs e)
@@ -110,6 +110,18 @@ namespace ApacheGuacamoleIMEswitch
                 var results = ps.Invoke<string>();
             }
 
+        }
+
+        private void URL_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void URL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            strURL = URL.Text.ToString();
+            Properties.Settings.Default.URL = URL.Text.ToString();
+            Properties.Settings.Default.Save();
         }
     }
 }

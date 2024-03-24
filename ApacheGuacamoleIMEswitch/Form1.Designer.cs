@@ -99,7 +99,7 @@ namespace ApacheGuacamoleIMEswitch
             label1.ForeColor = SystemColors.HotTrack;
             label1.Location = new Point(16, 204);
             label1.Name = "label1";
-            label1.Size = new Size(184, 18);
+            label1.Size = new Size(173, 18);
             label1.TabIndex = 5;
             label1.Text = "預設酪梨醬遠端登入網址";
             label1.TextAlign = ContentAlignment.MiddleRight;
@@ -125,6 +125,8 @@ namespace ApacheGuacamoleIMEswitch
             URL.Size = new Size(646, 27);
             URL.TabIndex = 2;
             URL.TextAlign = HorizontalAlignment.Center;
+            URL.TextChanged += URL_TextChanged;
+            URL.KeyPress += URL_KeyPress;
             // 
             // textBox1
             // 
