@@ -150,7 +150,7 @@ namespace ApacheGuacamoleIMEswitch
             FormBorderStyle = FormBorderStyle.FixedSingle;
             ImeMode = ImeMode.Off;
             Name = "Form1";
-            Text = "解決酪梨醬中文切換問題  2.0";
+            Text = "解決酪梨醬中文切換問題  2.1";
             FormClosing += Form1_Closing;
             Load += Form1_Load;
             tabControl1.ResumeLayout(false);
