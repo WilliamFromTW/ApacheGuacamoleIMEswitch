@@ -1,3 +1,4 @@
+using IWshRuntimeLibrary;
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using System;
@@ -14,12 +15,26 @@ namespace ApacheGuacamoleIMEswitch
     {
         Boolean bIsDisable = false;
         String strURL = "https://guacamole.apache.org/";
-
+        Boolean bFirstTime = true;
         private static ContextMenuStrip contextMenuStrip;
         public Form1()
         {
             InitializeComponent();
         }
+
+        /*
+
+        protected override void SetVisibleCore(bool value)
+        {
+            if (!this.IsHandleCreated)
+            {
+                this.CreateHandle();
+                value = false;
+            }
+
+            base.SetVisibleCore(value);
+        }
+        */
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -72,9 +87,61 @@ namespace ApacheGuacamoleIMEswitch
             }
         }
 
+        protected override void OnLoad(EventArgs e)
+        {
+            string subkey2 = @"Software\\ApacheGuacamoleIMEswitch";
+            RegistryKey localKey2 = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
+            if (localKey2.OpenSubKey(subkey2) != null)
+            {
+                if (localKey2.OpenSubKey(subkey2).GetValue("FirstTime") != null)
+                {
+                    String value = localKey2.OpenSubKey(subkey2).GetValue("FirstTime").ToString();
+                    //MessageBox.Show(value);
+                    if (value.Equals("1"))
+                    {
+                        bFirstTime = true;
+
+                    }
+                    else
+                    {
+                        bFirstTime = false;
+
+                    }
+
+                }
+
+            }
+
+
+            if (!bFirstTime)
+            {
+                Visible = false; // Hide form window.
+                ShowInTaskbar = false; // Remove from taskbar.
+                Opacity = 0;
+            }
+            else
+            {
+                if (localKey2.OpenSubKey(subkey2) != null)
+                {
+                    localKey2.OpenSubKey(subkey2, true).SetValue("FirstTime", "0");
+                    bFirstTime = false;
+                }
+
+            }
+
+
+            base.OnLoad(e);
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
 
+
+            Rectangle resolutionRect = System.Windows.Forms.Screen.FromControl(this).Bounds;
+            if (this.Width >= resolutionRect.Width || this.Height >= resolutionRect.Height)
+            {
+                this.WindowState = FormWindowState.Maximized;
+            }
 
             if (Properties.Settings.Default.URL is null || Properties.Settings.Default.URL.ToString().Trim().Equals(""))
             {
@@ -108,6 +175,27 @@ namespace ApacheGuacamoleIMEswitch
 
             notifyIcon1.ContextMenuStrip = contextMenuStrip;
             restoreLeftShift();
+            if (!Properties.Settings.Default.CreateStartupLink)
+            {
+                WshShell wshShell = new WshShell();
+                IWshRuntimeLibrary.IWshShortcut shortcut;
+                string startUpFolderPath =
+                  Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+
+                // Create the shortcut
+                shortcut =
+                  (IWshRuntimeLibrary.IWshShortcut)wshShell.CreateShortcut(
+                    startUpFolderPath + "\\" +
+                    Application.ProductName + ".lnk");
+
+                shortcut.TargetPath = Application.ExecutablePath;
+                shortcut.WorkingDirectory = Application.StartupPath;
+                shortcut.Description = "Launch My Application";
+                // shortcut.IconLocation = Application.StartupPath + @"\App.ico";
+                shortcut.Save();
+                Properties.Settings.Default.CreateStartupLink = true;
+                Properties.Settings.Default.Save();
+            }
 
         }
 
@@ -218,12 +306,14 @@ namespace ApacheGuacamoleIMEswitch
                 }
 
             }
+
+
             using (var ps = PowerShell.Create())
             {
                 if (!bIsDisable)
                 {
-                  notifyIcon1.ContextMenuStrip.Items[0].Text = "按此「暫停本機左邊Shift鍵」";
-                  notifyIcon1.ContextMenuStrip.Items[0].ForeColor = Color.Red;
+                    notifyIcon1.ContextMenuStrip.Items[0].Text = "按此「暫停本機左邊Shift鍵」";
+                    notifyIcon1.ContextMenuStrip.Items[0].ForeColor = Color.Red;
                     notifyIcon1.ContextMenuStrip.Update();
                 }
                 else
@@ -261,10 +351,15 @@ namespace ApacheGuacamoleIMEswitch
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            Visible = true; // Hide form window.
+            ShowInTaskbar = true; // Remove from taskbar.
+            Opacity = 100;
 
-            Show();
+            this.Show();
+
             this.WindowState = FormWindowState.Normal;
             notifyIcon1.Visible = false;
+
         }
 
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
@@ -278,5 +373,42 @@ namespace ApacheGuacamoleIMEswitch
                 //do something here
             }
         }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Activated(object sender, EventArgs e)
+        {
+
+            /*
+
+            if (!bFirstTime)
+            {
+                this.Hide();
+                string subkey2 = @"Software\\ApacheGuacamoleIMEswitch";
+                RegistryKey localKey2 = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
+                if (localKey2.OpenSubKey(subkey2) != null)
+                {
+                    localKey2.OpenSubKey(subkey2,true).SetValue("FirstTime", "0");
+                    bFirstTime = false;
+                }
+            }
+            */
+         
+        }
+
+      
     }
 }

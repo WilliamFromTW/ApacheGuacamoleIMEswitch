@@ -77,6 +77,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -197,7 +205,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ApacheGuacamoleIMEswitchSetup"
         "ProductCode" = "8:{0C32243A-EC36-46E4-A6DE-F53AB77EAFCF}"
-        "PackageCode" = "8:{A530999B-0D85-4AA6-BD0F-BA432C21EB49}"
+        "PackageCode" = "8:{D1731FBC-7C83-4CB2-855C-12AFF6AF534F}"
         "UpgradeCode" = "8:{8B93FA73-534B-4BDA-BD31-33D74956728E}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -274,16 +282,24 @@
                         {
                             "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_F7E90A5994044EE391A2C2950BF8D34D"
                             {
-                            "Name" = "8:[Manufacturer]"
+                            "Name" = "8:ApacheGuacamoleIMEswitch"
                             "Condition" = "8:"
                             "AlwaysCreate" = "11:FALSE"
-                            "DeleteAtUninstall" = "11:FALSE"
+                            "DeleteAtUninstall" = "11:TRUE"
                             "Transitive" = "11:FALSE"
                                 "Keys"
                                 {
                                 }
                                 "Values"
                                 {
+                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_F2D580E45E824A6ABF8B1026EE518704"
+                                    {
+                                    "Name" = "8:FirstTime"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:1"
+                                    }
                                 }
                             }
                         }
