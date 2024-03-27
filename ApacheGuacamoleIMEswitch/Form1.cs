@@ -1,11 +1,13 @@
 using IWshRuntimeLibrary;
 using Microsoft.Win32;
+using Namotion.Reflection;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -14,8 +16,13 @@ namespace ApacheGuacamoleIMEswitch
     public partial class Form1 : Form
     {
         Boolean bIsDisable = false;
-        String strURL = "https://guacamole.apache.org/";
+        String strURL = "https://remote.hlmt.com.tw";
+        String strRDP = null;
+        String strUID = null;
+        String strPWD = null;
+        String strPORT = "3389";
         Boolean bFirstTime = true;
+
         private static ContextMenuStrip contextMenuStrip;
         public Form1()
         {
@@ -155,19 +162,60 @@ namespace ApacheGuacamoleIMEswitch
                 strURL = URL.Text.ToString();
             }
 
-            contextMenuStrip = new ContextMenuStrip();
-            ToolStripItem stripItem0 = new ToolStripMenuItem("按此「暫停本機左邊Shift鍵」");
-            stripItem0.ForeColor = Color.Red;
-            contextMenuStrip.Items.AddRange(new ToolStripItem[] { stripItem0 });
-            stripItem0.Click += new EventHandler(MenuItem0);
-            contextMenuStrip.Items.AddRange(new ToolStripItem[] { stripItem0 });
+            if (Properties.Settings.Default.RDP != null && !Properties.Settings.Default.RDP.ToString().Trim().Equals(""))
+            {
+                RDP.Text = Properties.Settings.Default.RDP.ToString();
+                strRDP = RDP.Text.ToString();
+            }
 
-            ToolStripItem stripItem1 = new ToolStripMenuItem("按此「開啟酪梨醬(遠端連線)」");
+            if (Properties.Settings.Default.UID != null && !Properties.Settings.Default.UID.ToString().Trim().Equals(""))
+            {
+                UID.Text = Properties.Settings.Default.UID.ToString();
+                strUID = UID.Text.ToString();
+            }
+
+            if (Properties.Settings.Default.PWD != null && !Properties.Settings.Default.PWD.ToString().Trim().Equals(""))
+            {
+                PWD.Text = Properties.Settings.Default.PWD.ToString();
+                strPWD = PWD.Text.ToString();
+            }
+
+            if (Properties.Settings.Default.PORT != null && !Properties.Settings.Default.PORT.ToString().Trim().Equals(""))
+            {
+                PORT.Text = Properties.Settings.Default.PORT.ToString();
+                strPORT = PORT.Text.ToString();
+            }
+            else
+            {
+                PORT.Text = strPORT;
+                Properties.Settings.Default.PORT = strPORT;
+                Properties.Settings.Default.Save();
+            }
+
+            contextMenuStrip = new ContextMenuStrip();
+
+            ToolStripItem stripItem1 = new ToolStripMenuItem("開啟「網頁」遠端連線");
+            stripItem1.Image = ApacheGuacamoleIMEswitch.Properties.Resources.Guacamole_icon;
             stripItem1.Click += new EventHandler(MenuItem1);
             contextMenuStrip.Items.AddRange(new ToolStripItem[] { stripItem1 });
 
+            ToolStripItem stripItemRDP = new ToolStripMenuItem("開啟「遠端桌面連線」");
+            stripItemRDP.Image = ApacheGuacamoleIMEswitch.Properties.Resources.rdp;
+            stripItemRDP.Click += new EventHandler(MenuItemRDP);
+            contextMenuStrip.Items.AddRange(new ToolStripItem[] { stripItemRDP });
+
+
             ToolStripItem line = new ToolStripSeparator();
             contextMenuStrip.Items.AddRange(new ToolStripItem[] { line });
+
+            ToolStripMenuItem stripItem0 = new ToolStripMenuItem("「暫停本機左邊Shift鍵」");
+            stripItem0.ForeColor = Color.Red;
+            stripItem0.Click += new EventHandler(MenuItem0);
+            contextMenuStrip.Items.AddRange(new ToolStripItem[] { stripItem0 });
+
+
+            ToolStripItem line2 = new ToolStripSeparator();
+            contextMenuStrip.Items.AddRange(new ToolStripItem[] { line2 });
 
             ToolStripItem stripItem2 = new ToolStripMenuItem("離開本程式");
             stripItem2.Click += new EventHandler(MenuItem3);
@@ -205,6 +253,42 @@ namespace ApacheGuacamoleIMEswitch
 
         }
 
+        private void MenuItemRDP(object Sender, EventArgs e)
+        {
+            if (strRDP == null || strRDP.Length == 0)
+            {
+                MessageBox.Show("請先設定遠端桌面連線IP");
+                Visible = true; // Hide form window.
+                ShowInTaskbar = true; // Remove from taskbar.
+                Opacity = 100;
+
+                this.Show();
+
+                this.WindowState = FormWindowState.Normal;
+                notifyIcon1.Visible = false;
+            }
+            else
+            {
+                Process rdcProcess = new Process();
+                rdcProcess.StartInfo.FileName = Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\cmdkey.exe");
+                String strCMDKEYargu = "/generic:\"" + strRDP + "\"";
+                if (strUID != null && !strUID.Trim().Equals(""))
+                {
+                    strCMDKEYargu += " /user:\"" + strUID + "\"";
+                    if (strPWD != null && !strPWD.Trim().Equals(""))
+                    {
+                        strCMDKEYargu += " /pass:\"" + strPWD + "\"";
+                    }
+
+                }
+                rdcProcess.StartInfo.Arguments = strCMDKEYargu;
+                rdcProcess.Start();
+
+                rdcProcess.StartInfo.FileName = Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\mstsc.exe");
+                rdcProcess.StartInfo.Arguments = "/v:" + strRDP + ":" + strPORT;
+                rdcProcess.Start();
+            }
+        }
 
         private void MenuItem1(object Sender, EventArgs e)
         {
@@ -213,10 +297,9 @@ namespace ApacheGuacamoleIMEswitch
                 ps.AddCommand("Set-ItemProperty").AddParameter("Path", "HKCU:\\Software\\Microsoft\\IME\\15.0\\IMETC").AddParameter("Name", "Left Shift Usage").AddParameter("Value", "0x00000002");
                 var results = ps.Invoke<string>();
                 bIsDisable = true;
-                notifyIcon1.ContextMenuStrip.Items[0].Text = "按此「恢復本機左邊Shift鍵」";
-                notifyIcon1.ContextMenuStrip.Items[0].ForeColor = Color.Blue;
+                notifyIcon1.ContextMenuStrip.Items[3].Text = "「恢復本機左邊Shift鍵」";
+                notifyIcon1.ContextMenuStrip.Items[3].ForeColor = Color.Blue;
                 notifyIcon1.ContextMenuStrip.Update();
-
             }
             Process.Start(new ProcessStartInfo(strURL) { UseShellExecute = true });
         }
@@ -228,6 +311,20 @@ namespace ApacheGuacamoleIMEswitch
             {
                 ps.AddCommand("Set-ItemProperty").AddParameter("Path", "HKCU:\\Software\\Microsoft\\IME\\15.0\\IMETC").AddParameter("Name", "Left Shift Usage").AddParameter("Value", "0x00000001");
                 var results = ps.Invoke<string>();
+            }
+            if (strRDP != null && !strRDP.Trim().Equals(""))
+            {
+                Process rdcProcess = new Process();
+                rdcProcess.StartInfo.FileName = Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\cmdkey.exe");
+                String strCMDKEYargu = "/delete:\"" + strRDP + "\"";
+                rdcProcess.StartInfo.Arguments = strCMDKEYargu;
+                rdcProcess.Start();
+
+            }
+            if (strUID != null && !strUID.Trim().Equals(""))
+            {
+                Properties.Settings.Default.PWD = "";
+                Properties.Settings.Default.Save();
             }
             this.Close();
         }
@@ -264,8 +361,8 @@ namespace ApacheGuacamoleIMEswitch
                     ps.AddCommand("Set-ItemProperty").AddParameter("Path", "HKCU:\\Software\\Microsoft\\IME\\15.0\\IMETC").AddParameter("Name", "Left Shift Usage").AddParameter("Value", "0x00000002");
                     var results = ps.Invoke<string>();
                     bIsDisable = true;
-                    notifyIcon1.ContextMenuStrip.Items[0].Text = "按此「恢復本機左邊Shift鍵」";
-                    notifyIcon1.ContextMenuStrip.Items[0].ForeColor = Color.Blue;
+                    notifyIcon1.ContextMenuStrip.Items[3].Text = "「恢復本機左邊Shift鍵」";
+                    notifyIcon1.ContextMenuStrip.Items[3].ForeColor = Color.Blue;
                     notifyIcon1.ContextMenuStrip.Update();
 
                 }
@@ -274,8 +371,8 @@ namespace ApacheGuacamoleIMEswitch
                     ps.AddCommand("Set-ItemProperty").AddParameter("Path", "HKCU:\\Software\\Microsoft\\IME\\15.0\\IMETC").AddParameter("Name", "Left Shift Usage").AddParameter("Value", "0x00000001");
                     var results = ps.Invoke<string>();
                     bIsDisable = false;
-                    notifyIcon1.ContextMenuStrip.Items[0].Text = "按此「暫停本機左邊Shift鍵」";
-                    notifyIcon1.ContextMenuStrip.Items[0].ForeColor = Color.Red;
+                    notifyIcon1.ContextMenuStrip.Items[3].Text = "「暫停本機左邊Shift鍵」";
+                    notifyIcon1.ContextMenuStrip.Items[3].ForeColor = Color.Red;
                     notifyIcon1.ContextMenuStrip.Update();
 
                 }
@@ -312,14 +409,14 @@ namespace ApacheGuacamoleIMEswitch
             {
                 if (!bIsDisable)
                 {
-                    notifyIcon1.ContextMenuStrip.Items[0].Text = "按此「暫停本機左邊Shift鍵」";
-                    notifyIcon1.ContextMenuStrip.Items[0].ForeColor = Color.Red;
+                    notifyIcon1.ContextMenuStrip.Items[3].Text = "「暫停本機左邊Shift鍵」";
+                    notifyIcon1.ContextMenuStrip.Items[3].ForeColor = Color.Red;
                     notifyIcon1.ContextMenuStrip.Update();
                 }
                 else
                 {
-                    notifyIcon1.ContextMenuStrip.Items[0].Text = "按此「恢復本機左邊Shift鍵」";
-                    notifyIcon1.ContextMenuStrip.Items[0].ForeColor = Color.Blue;
+                    notifyIcon1.ContextMenuStrip.Items[3].Text = "「恢復本機左邊Shift鍵」";
+                    notifyIcon1.ContextMenuStrip.Items[3].ForeColor = Color.Blue;
                     notifyIcon1.ContextMenuStrip.Update();
                 }
             }
@@ -406,9 +503,73 @@ namespace ApacheGuacamoleIMEswitch
                 }
             }
             */
-         
+
         }
 
-      
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            strRDP = RDP.Text.ToString();
+            Properties.Settings.Default.RDP = RDP.Text.ToString();
+            Properties.Settings.Default.Save();
+
+            strPORT = PORT.Text.ToString();
+            Properties.Settings.Default.PORT = PORT.Text.ToString();
+            Properties.Settings.Default.Save();
+
+            if (UID != null)
+            {
+                strUID = UID.Text.ToString();
+                Properties.Settings.Default.UID = UID.Text.ToString();
+                Properties.Settings.Default.Save();
+
+            }
+
+            if (PWD != null)
+            {
+                strPWD = PWD.Text.ToString();
+                Properties.Settings.Default.PWD = PWD.Text.ToString();
+                Properties.Settings.Default.Save();
+
+            }
+
+
+        }
+
+        private void RDP_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            strRDP = RDP.Text.ToString();
+            Properties.Settings.Default.RDP = RDP.Text.ToString();
+            Properties.Settings.Default.Save();
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RDP_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

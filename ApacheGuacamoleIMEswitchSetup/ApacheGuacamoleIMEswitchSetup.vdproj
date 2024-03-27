@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_7C7D2025D4C14A83B8D439513EB2CA2C"
+        "MsmKey" = "8:_8D668D8D9A95468D9D3F5F8DF9F30F33"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -117,7 +117,7 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7C7D2025D4C14A83B8D439513EB2CA2C"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8D668D8D9A95468D9D3F5F8DF9F30F33"
             {
             "SourcePath" = "8:..\\ApacheGuacamoleIMEswitch\\images\\guacamole_icon_niC_icon.ico"
             "TargetName" = "8:guacamole_icon_niC_icon.ico"
@@ -203,20 +203,20 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:ApacheGuacamoleIMEswitchSetup"
-        "ProductCode" = "8:{0C32243A-EC36-46E4-A6DE-F53AB77EAFCF}"
-        "PackageCode" = "8:{D1731FBC-7C83-4CB2-855C-12AFF6AF534F}"
+        "ProductName" = "8:遠端連線幫手"
+        "ProductCode" = "8:{651C40ED-8DCF-40C4-8DB8-EC00A6D6263C}"
+        "PackageCode" = "8:{CB315A25-C235-49C6-936C-C9268A488733}"
         "UpgradeCode" = "8:{8B93FA73-534B-4BDA-BD31-33D74956728E}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.0"
+        "ProductVersion" = "8:3.1"
         "Manufacturer" = "8:kafeiou"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:ApacheGuacamoleIMEswitchSetup"
+        "Title" = "8:遠端連線幫手"
         "Subject" = "8:"
         "ARPCONTACT" = "8:william"
         "Keywords" = "8:"
@@ -335,7 +335,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_3153CED42F0A4BC5B5F57A063BF19B75"
             {
-            "Name" = "8:ApacheGuacamoleIMEswitch"
+            "Name" = "8:遠端連線幫手"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -344,7 +344,7 @@
             "Target" = "8:_D88D9944E904494E85A914271884D177"
             "Folder" = "8:_76E6285F89D344918271F26C4D0B91C3"
             "WorkingFolder" = "8:_4ECBD6E61F8A4D329A8482542920B549"
-            "Icon" = "8:_7C7D2025D4C14A83B8D439513EB2CA2C"
+            "Icon" = "8:_8D668D8D9A95468D9D3F5F8DF9F30F33"
             "Feature" = "8:"
             }
         }

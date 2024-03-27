@@ -65,7 +65,7 @@ namespace ApacheGuacamoleIMEswitch.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap _2024_03_26_09_16_48_ {
             get {
-                object obj = ResourceManager.GetObject("2024-03-26 09_16_48-", resourceCulture);
+                object obj = ResourceManager.GetObject("_2024_03_26_09_16_48_", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -76,6 +76,16 @@ namespace ApacheGuacamoleIMEswitch.Properties {
         internal static System.Drawing.Bitmap Guacamole_icon {
             get {
                 object obj = ResourceManager.GetObject("Guacamole-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
+        internal static System.Drawing.Bitmap rdp {
+            get {
+                object obj = ResourceManager.GetObject("rdp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
